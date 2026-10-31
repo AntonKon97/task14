@@ -17,17 +17,27 @@ export default function Play() {
         <>
           <Text style={[styles.text, { alignSelf: "center" }]}>Congrats!</Text>
           <Text style={styles.text}>For now you have learnt all the words</Text>
-          <Image style={styles.image} source={require("../../assets/well-done-icon.png")} />
+          <Image
+            style={styles.image}
+            source={require("../../assets/well-done-icon.png")}
+          />
         </>
       ) : (
-        <WordCard
-          wordInfo={wordsToStudy[currentWordIndex % wordsToStudy.length]}
-          setNext={() =>
-            setCurrentWordIndex(
-              (currentWordIndex) => (currentWordIndex + 1) % wordsToStudy.length
-            )
-          }
-        />
+        <View style={styles.deckContainer}>
+          <View style={[styles.backCard, styles.backCardBottom]} />
+          <View style={[styles.backCard, styles.backCardTop]} />
+
+          <View style={styles.frontCard}>
+            <WordCard
+              wordInfo={wordsToStudy[currentWordIndex % wordsToStudy.length]}
+              setNext={() =>
+                setCurrentWordIndex(
+                  (index) => (index + 1) % wordsToStudy.length,
+                )
+              }
+            />
+          </View>
+        </View>
       )}
     </View>
   );
@@ -39,12 +49,50 @@ function getStyles(colors) {
       flex: 1,
       backgroundColor: colors.appBackground,
     },
+
+    deckContainer: {
+      flex: 1,
+      position: "relative",
+      marginHorizontal: 32,
+      marginVertical: 50,
+      marginRight: 48,
+      marginBottom: 64,
+    },
+
+    backCard: {
+      position: "absolute",
+      borderWidth: 1,
+      borderColor: colors.primary200,
+      borderRadius: 8,
+      backgroundColor: colors.appBackground,
+    },
+
+    backCardBottom: {
+      top: 30,
+      left: 30,
+      right: -16,
+      bottom: -16,
+    },
+
+    backCardTop: {
+      top: 15,
+      left: 15,
+      right: -8,
+      bottom: -8,
+    },
+
+    frontCard: {
+      flex: 1,
+      zIndex: 1,
+    },
+
     text: {
       color: colors.fontMain,
       fontSize: 22,
       margin: 10,
       marginTop: 25,
     },
+
     image: {
       width: "100%",
       height: undefined,
